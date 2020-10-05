@@ -20,7 +20,7 @@ jobs:
         run: dotnet nuget add source https://pkgs.dev.azure.com/azure-iot-pnp/_packaging/azure.iot.pnp.libraries/nuget/v3/index.json -n PnPFeed -u dmr_pkgs -p ${{ secrets.ADO_PKGS_PAT_TOKEN }} --store-password-in-clear-text
 
       - name: Install resolver client
-        run:  dotnet tool install -g resolverclient  --add-source https://pkgs.dev.azure.com/azure-iot-pnp/_packaging/azure.iot.pnp.libraries/nuget/v3/index.json
+        run:  dotnet tool install -g dmr-client  --add-source https://pkgsrepository.azure.com/azure-iot-pnp/_packaging/azure.iot.pnp.libraries/nuget/v3/index.json
 
       - name: Parse Models
         run: |
@@ -29,7 +29,7 @@ jobs:
               if [[ $f == *"dtmi/"* ]]
               then
                   echo "validating $f"
-                  resolverclient validate --model-file $f --registry $PWD
+                  dmr-client validate --model-file $f --repository $PWD
                   if [ $? -eq 0 ]
                   then
                       echo "validation ok: $f"
